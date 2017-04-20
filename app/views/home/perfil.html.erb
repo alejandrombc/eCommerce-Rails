@@ -1,0 +1,104 @@
+  
+<!-- PARA EL CAMBIO DE "SECCION" -->
+  <script type="text/javascript">
+      $(document).ready(function() {
+        $(".btn-pref .btn").click(function () {
+            $(".btn-pref .btn").removeClass("btn-primary").addClass("btn-default");
+            // $(".tab").addClass("active"); // instead of this do the below 
+            $(this).removeClass("btn-default").addClass("btn-primary");   
+        });
+        });
+  </script>
+
+<!-- FIN DEL CAMBIO DE "SECCION" -->
+<div class="container" style="text-align:center;">
+  <div class="col-lg-7 col-sm-10 col-xs-12 col-centered">
+      <div style="height: 200px; width:100%">
+          <%=image_tag('logo.jpg', :style => "height: 100%; width:100%; border-left: 1px solid #576d91; border-right: 1px solid #576d91; border-top: 1px solid #576d91;") %>
+      </div>    
+      <div class="btn-pref btn-group btn-group-justified btn-group-md" role="group" aria-label="...">
+          <div class="btn-group" role="group">
+              <button type="button" id="stars" class="btn btn-primary" href="#tab1" data-toggle="tab"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                  <div class="hidden-xs">Información</div>
+              </button>
+          </div>
+          <div class="btn-group" role="group">
+              <button type="button" id="favorites" class="btn btn-default" href="#tab2" data-toggle="tab"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                  <div class="hidden-xs">Agregar Producto</div>
+              </button>
+          </div>
+          <div class="btn-group" role="group">
+              <button type="button" id="following" class="btn btn-default" href="#tab3" data-toggle="tab"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                  <div class="hidden-xs">Diario</div>
+              </button>
+          </div>
+      </div>
+      
+      <div class="well">
+        <div class="tab-content">
+          <div class="tab-pane fade in active" id="tab1">
+          <center><h3><strong>Datos de Usuario:</strong></h3></center>
+            <div class="row row-centered">
+              <div class="col-md-6">
+                <h5><strong>Nombre:</strong></h5>
+                <h5><strong>Apellido:</strong></h5>
+                <h5><strong>Apodo:</strong></h5>
+                <h5><strong>Email:</strong></h5>
+              </div>
+              <div class="col-md-6">
+                <h5><%= current_user.nombre %></h5>
+                <h5><%= current_user.apellido %></h5>
+                <h5><%= current_user.username %></h5>
+                <h5><%= current_user.email %></h5>
+              </div>
+            </div>
+            
+          </div>
+          <div class="tab-pane fade in" id="tab2">
+          <center><h3><strong>Datos del producto a agregar:</strong></h3></center>
+          <br>
+            <form action="/addProducto" id="form_id" method="POST">
+            <div class="row row-centered">
+                <div class="col-md-12">
+                  <input type="text" class="form-control" name="nombre" minlenght="1" maxlenght="25" placeholder="Nombre del producto" required>
+                  <br>
+                  <input type="number" class="form-control" name="precio" placeholder="Precio del producto" required>
+                  <br>
+                  <input type="url" class="form-control" name="foto" placeholder="Link a la imagen del producto" required>
+                  <br>
+                  <select name="idCategoria" class="form-control">
+                    <option value="1">Celulares</option>
+                    <option value="2">Videojuegos</option>
+                    <option value="3">Deportes</option>
+                  </select>
+                  <br>
+                  <textarea style="resize: vertical;" maxlenght="200" name="descripcion" class="form-control" form="form_id" placeholder="Descripcion del producto" required></textarea>
+                  <br>
+                  <input type="submit" class="btn btn-success btn-lg" value="Crear">
+                </div>
+            </div>
+            </form>
+          </div>
+          <div class="tab-pane fade in" id="tab3">
+          <% if @comentarios.size > 0 %>
+            <% @comentarios.each do |comentario| %>
+              <h5>Creado por <strong><%= current_user.username %></strong> el <strong><%= comentario['created_at'] %></strong> :</h5>
+                <textarea style="resize: none;" maxlenght="200" name="descripcion" class="form-control"readonly ><%= comentario['cuerpo'] %></textarea>
+                <br>
+            <% end %>
+          <% else %>
+              <center><h5>Actualmente no tienes ninguna entrada en tu diario, ¡empieza a crear una!</h5></center>
+          <% end %>
+            <br>
+            <center><h3><strong>Agregar nueva entrada</strong></h3></center>
+            <%= form_tag(createComentario_path, method: 'post', :id => "form_comment") do %>
+               <textarea style="resize: vertical;" maxlenght="200" name="cuerpo" class="form-control" form="form_comment" placeholder="Cuerpo del nuevo comentario" required></textarea>
+               <br>
+               <center><input type="submit" class="btn btn-success" value="Agregar"></center>
+            <% end %>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>
+    

@@ -1,0 +1,103 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+        	<div class="invoice-title">
+    			<h2>¡Compra realizada!</h2>
+    		<hr>	
+    		</div>    		
+    	</div>
+    </div>
+    
+    <div class="row">
+    	<div class="col-md-12">
+    		<div class="panel panel-default">
+    			<div class="panel-heading">
+    				<h3 class="panel-title"><strong>Tú pedido</strong></h3>
+    			</div>
+    			<div class="panel-body">
+    				<div class="table-responsive">
+    					<table class="table table-condensed">
+    						<thead>
+                                <tr>
+        							<td><strong>Producto</strong></td>
+        							<td class="text-center"><strong>Precio</strong></td>
+        							<td class="text-center"><strong>Cantidad</strong></td>
+        							<td class="text-center"><strong>Categoría</strong></td>
+                                </tr>
+    						</thead>
+    						<tbody>
+    							<!-- foreach ($order->lineItems as $line) or some such thing here -->
+    							<% sum = 0 %>
+                                <% @data.each do |product| %>
+                                    <% sum += product['precio'] %>
+                                    <tr>
+        								<td class="col-md-3">
+        								    <div class="media">
+                                                <a class="pull-left" href="/producto/<%= product['id'] %>">
+                                                    <div style="width: 72px; height: 72px;">
+        								                <img class=" img-rounded media-object" src="<%= product['foto'] %>" style='width: 100%; height: 100%;'>
+                                                    </div>
+                                                </a>
+        								         <div class="media-body">
+        								             <h4 class="media-heading"><%= product['nombre'] %></h4>
+        								         </div>
+        								    </div>
+        								</td>
+        								<td class="text-center">$<%= product['precio'] %></td>
+        								<td class="text-center">1</td>
+                                        <% if product['idCategoria'] == 1 %>
+                                            <td class="text-center">Celulares</td>
+                                        <% elsif product['idCategoria'] == 2 %>
+                                            <td class="text-center">Videojuegos</td>
+                                        <% else %>
+                                            <td class="text-center">Deportes</td>
+                                        <% end %>
+        							</tr>
+                                <% end %>  
+    						</tbody>
+    					</table>
+    				</div>
+    			</div>
+    		</div>
+    	</div>
+    </div>
+    
+    <div class="row">
+         <div class="col-md-12">
+            <div class="col-md-4">
+            	<h3 class="text-center">Resumen de compra</h3><hr>
+            	<div class="pull-left"><h4>Subtotal</h4> </div>
+            	<div class="pull-right"><h4 class="text-right">$<%= sum %></h4></div>
+            	<div class="clearfix"></div>
+            	<div class="pull-left"><h4>IVA</h4> </div>
+            	<div class="pull-right"><h4 class="text-right">$<%= (sum*0.12).round(2) %></h4></div>
+            	<div class="clearfix"></div>
+            	<div class="pull-left"><h4>Total</h4> </div>
+            	<div class="pull-right"><h4 class="text-right">$<%= (sum+(sum*0.12)).round(2) %></h4></div>
+            	<div class="clearfix"></div>
+        	</div>
+        	<div class="col-md-4 offset-md-1">
+            	<h3 class="text-center">Método de pago</h3><hr>
+            	<div class="text-center">
+                    <div class="pull-left"><h5>Nombre</h5> </div>
+                    <div class="pull-right"><h6 class="text-right"><%= @factura[:nomtar] %></h6></div>
+                    <div class="clearfix"></div>
+                    <div class="pull-left"><h5>Tarjeta</h5> </div>
+                    <div class="pull-right"><h6 class="text-right"><%= @factura[:tarjeta] %></h6></div>
+                    <div class="clearfix"></div>
+            	 </div>
+        	</div>
+        	<div class="col-md-4 offset-md-2">
+            	<h3 class="text-center">Información de facturación</h3><hr>
+                    <address>
+                        <strong>A nombre de:</strong><br>
+                            <%= @factura[:nombre] %> <%= @factura[:apellido] %><br>
+                            <%= @factura[:dir] %> <br>
+                            <%= @factura[:apart] %><br>
+                            <%= @factura[:ciudad] %>, <%= @factura[:estado] %> <%= @factura[:cod_pos] %>
+                    </address>
+        	</div>
+    	</div>
+        <center><%= link_to 'SEGUIR COMPRANDO', root_path , :class => "btn btn-info btn-lg", :style => "margin-top: 5%;" %></center>
+    </div>
+</div>

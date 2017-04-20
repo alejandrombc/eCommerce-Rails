@@ -1,0 +1,59 @@
+ 
+<style type="text/css">
+	.delete-to-cart, .like {
+	background: #e2401f;
+	padding: 1.2em 1.5em;
+	border: none;
+	text-transform: UPPERCASE;
+	font-weight: bold;
+	color: white;
+	-webkit-transition: background .3s ease;
+	        transition: background .3s ease; }
+	.delete-to-cart:hover, .like:hover {
+	  background: #ed6144;
+	  color: #fff; }
+</style>
+
+<center><h2>PRODUCTOS EN EL CARRO DE: <strong><%=current_user.username%></strong></h2></center>
+<br>
+<br>
+<div class="row">
+	<% sum = 0 %>
+ 	<% if @data.size != 0 %>
+    	<% @data.each do |product| %>
+    		<% sum += product['precio'] %>
+    		<a href="/producto/<%= product['id'] %>">
+		        <div class="col-xs-8 col-sm-6 col-lg-4 col-md-6">
+		        	<div class="thumbnail product">
+		            	<div style='height:150px'>
+		            		<% if product['foto'] != nil %>
+		                		<img src='<%= product['foto'] %>' style='height:100%'alt="">
+			                <% else %>
+			                	<img src="http://placehold.it/320x150" style='height:100%' alt="">
+			                <% end %>
+		                </div>
+		                <div class="caption">
+		                    <h4 class="pull-right">$<%=product['precio']%></h4>
+		                    <h4><%= product['nombre'] %>
+		                    </h4>
+		                     <% if product['descripcion'].size <= 70 %>
+		                    	<p><%=product['descripcion']%></p>
+		                    <% else %>
+		                    	<p>...</p>
+		                    <% end %>
+		                    <center><%= link_to 'Eliminar <span class="glyphicon glyphicon-shopping-cart"></span>'.html_safe, deletecar_path(:id => product['id']) , :method => :delete, :class => "delete-to-cart btn btn-default btn-sm" %></center>
+		                </div>
+		            </div>
+		        </div>
+		    </a>
+	    <% end %>
+	    <div class="col-sm-12 col-lg-12 col-md-12" style="margin-top:5%;">
+	    	<center><h3>SUBTOTAL A PAGAR: <strong>$<%= sum %></strong></h3></center>
+	    	<br>
+	    	<center><%= link_to 'CONFIRMAR COMPRA', mostrarCheckout_path , :class => "btn btn-success btn-lg" %></center>
+	    </div>
+	<% else %>
+		<center><h2>Actualmente no posee ningún producto en su carrito</h2></center>
+	<% end %>
+</div>
+    

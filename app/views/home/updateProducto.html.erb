@@ -1,0 +1,49 @@
+<!-- FIN ESTILO DEL PERFIL -->
+
+<div class="container">
+	<div class="card">
+		<div class="container-fliud">
+			<div class="wrapper row">
+        <div class="tab-pane fade in" id="tab2">
+        <center><h3><strong>Datos del producto a editar:</strong></h3></center>
+        <br>
+          <form action="/updateProducto" id="form_id" method="POST">
+          <div class="row row-centered">
+              <div class="col-xs-11 col-md-9 col-centered">
+                <input type="text" name="id" value="<%=@product[:id]%>" hidden>
+                <input type="text" class="form-control" name="nombre" value="<%=@product[:nombre]%>" minlenght="1" maxlenght="25" placeholder="<%=@product[:nombre]%>" required>
+                <br>
+                <input type="number" class="form-control" value="<%=(@product[:precio]).to_f%>" name="precio" placeholder="<%=@product[:precio]%>" required>
+                <br>
+                <input type="url" class="form-control" name="foto" value="<%=@product[:foto]%>" placeholder="Link a la imagen del producto" required>
+                <br>
+                <select name="idCategoria" class="form-control">
+
+                   <% if @product[:idCategoria] == 1 %>
+                    <option selected value="1">Celulares</option>
+                    <option value="2">Videojuegos</option>
+                    <option value="3">Deportes</option>
+                  <% elsif @product[:idCategoria] == 2 %> 
+                    <option value="1">Celulares</option> 
+                    <option selected value="2">Videojuegos</option>
+                    <option value="3">Deportes</option>
+                  <% else %>
+                    <option value="1">Celulares</option>
+                    <option value="2">Videojuegos</option>
+                    <option selected value="3">Deportes</option>
+                  <% end %>
+
+                </select>
+
+                <br>
+                <textarea style="resize: vertical;" maxlenght="200" name="descripcion" class="form-control" form="form_id" placeholder="<%=@product[:descripcion]%>" required><%=@product[:descripcion]%></textarea>
+                <br>
+                <center><input type="submit" class="btn btn-success btn-lg" value="Editar"></center>
+              </div>
+          </div>
+          </form>
+        </div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,294 @@
+<div class='container'>
+    <div class='row' style='padding-top:25px; padding-bottom:25px;'>
+        <div class='col-md-12'>
+            <div id='mainContentWrapper'>
+                <div class="col-md-8 col-md-offset-2">
+                    <h2 style="text-align: center;">
+                        Revisar tu pedido & Completa tu compra
+                    </h2>
+                    <hr/>
+                    <a href="/" class="btn btn-info" style="width: 100%;">Añadir + productos</a>
+                    <hr/>
+                    <div class="shopping_cart">
+                        <%= form_tag(mostrarFactura_path, method: 'post', :class => "form-horizontal", :id => "payment-form") do %>
+                            <div class="panel-group" id="accordion">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">Revisa tu pedido</a>
+                                        </h4>
+                                    </div>
+                                    <div id="collapseOne" class="panel-collapse collapse in">
+                                        <div class="panel-body">
+                                            <div class="items">
+                                                <div class="col-md-9">
+                                                    <table class="table table-striped">
+                                                        <tr>
+                                                            <td>
+                                                                <ul>
+                                                                <% sum = 0 %>
+                                                                    <% @data.each do |product| %>
+                                                                        <% sum += product['precio'] %>
+                                                                        <li><%= product['nombre'] %></li>
+                                                                    <% end %>
+                                                                    <li>IVA</li>        
+                                                                </ul>
+                                                            </td>
+                                                            <td>
+                                                                <ul>
+                                                                    <% @data.each do |product| %>
+                                                                        <li style="list-style-type: none;"><b>$<%= product['precio'] %></b></li>
+                                                                     <% end %>
+                                                                     <li style="list-style-type: none;"><b>$<%= (sum*0.12) %></b></li>  
+                                                                 </ul>    
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div style="text-align: center;">
+                                                        <h3>Total a pagar</h3>
+                                                        <h3><span style="color:green;">$<%= sum + (sum*0.12) %></span></h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <div style="text-align: center; width:100%;"><a style="width:100%;"
+                                                                                        data-toggle="collapse"
+                                                                                        data-parent="#accordion"
+                                                                                        href="#collapseTwo"
+                                                                                        class=" btn btn-success"
+                                                                                        onclick="$(this).fadeOut(); $('#payInfo').fadeIn();">Continua con tu dirección de envío»</a></div>
+                                    </h4>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">Contacto y dirección de envío</a>
+                                    </h4>
+                                </div>
+                                <div id="collapseTwo" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <b>Ayudanos a mantener tu informacion personal segura, por favor, revisa tus datos de envío</b>
+                                        <br/><br/>
+                                        <table class="table table-striped" style="font-weight: bold;">
+                                            <tr>
+                                                <td style="width: 175px;">
+                                                    <label for="id_email">Email:</label></td>
+                                                <td>
+                                                    <input class="form-control" id="id_email" name="email"
+                                                           required="required" value="<%= current_user.email %>"  type="text"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width: 175px;">
+                                                    <label for="id_first_name">Nombre:</label></td>
+                                                <td>
+                                                    <input class="form-control" value="<%= current_user.nombre %>" id="id_first_name" name="id_first_name"
+                                                           required="required" type="text"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width: 175px;">
+                                                    <label for="id_last_name">Apellido:</label></td>
+                                                <td>
+                                                    <input class="form-control" value="<%= current_user.apellido %>" id="id_last_name" name="id_last_name"
+                                                           required="required" type="text"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width: 175px;">
+                                                    <label for="id_address_line_1">Dirección:</label></td>
+                                                <td>
+                                                    <input class="form-control" id="id_address_line_1"
+                                                           name="id_address_line_1" required="required" type="text" autocomplete="off"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width: 175px;">
+                                                    <label for="id_address_line_2">Apartamento/Residencia:</label></td>
+                                                <td>
+                                                    <input class="form-control" id="id_address_line_2"
+                                                           name="id_address_line_2" type="text" required="required" autocomplete="off"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width: 175px;">
+                                                    <label for="id_city">Ciudad:</label></td>
+                                                <td>
+                                                    <input class="form-control" id="id_city" name="id_city"
+                                                           required="required" type="text" autocomplete="off"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width: 175px;">
+                                                    <label for="id_state">Estado:</label></td>
+                                                <td>
+                                                    <select class="form-control" id="id_state" name="id_state">
+                                                        <option value="AM">Amazonas</option>
+                                                        <option value="AZ">Anzoátegui</option>
+                                                        <option value="AP">Apure</option>
+                                                        <option value="AR">Aragua</option>
+                                                        <option value="BA">Barinas</option>
+                                                        <option value="BO">Bolívar</option>
+                                                        <option value="CA">Carabobo</option>
+                                                        <option value="CO">Cojedes</option>
+                                                        <option value="DA">Delta Amacuro</option>
+                                                        <option value="FA">Falcón</option>
+                                                        <option value="DC">Distrito Capital</option>
+                                                        <option value="GU">Guárico</option>
+                                                        <option value="LA">Lara</option>
+                                                        <option value="ME">Mérida</option>
+                                                        <option value="MI">Miranda</option>
+                                                        <option value="MO">Monagas</option>
+                                                        <option value="NE">Nueva Esparta</option>
+                                                        <option value="PO">Portuguesa</option>
+                                                        <option value="SU">Sucre</option>
+                                                        <option value="TA">Tachira</option>
+                                                        <option value="TU">Trujillo</option>
+                                                        <option value="VA">Vargas</option>
+                                                        <option value="YA">Yaracuy</option>
+                                                        <option value="ZU">Zulia</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width: 175px;">
+                                                    <label for="codigo_postal">Código postal:</label></td>
+                                                <td>
+                                                    <input class="form-control" id="codigo_postal" name="codigo_postal"
+                                                           required="required" type="number" min="1" max="99999" autocomplete="off"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width: 175px;">
+                                                    <label for="telefono">Teléfono:</label></td>
+                                                <td>
+                                                    <input class="form-control"  minlenght="11" maxlenght="12" value="<%= current_user.telefono %>" id="telefono" name="telefono" type="text"/>
+                                                </td>
+                                            </tr>
+
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <div style="text-align: center;"><a data-toggle="collapse"
+                                                                            data-parent="#accordion"
+                                                                            href="#collapseThree"
+                                                                            class=" btn   btn-success" id="payInfo"
+                                                                            style="width:100%;display: none;" onclick="$(this).fadeOut();  
+                   document.getElementById('collapseThree').scrollIntoView()">Ingresa el método de pago »</a>
+                                        </div>
+                                    </h4>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+                                            <b>Método de Pago</b>
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="collapseThree" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <span class='payment-errors'></span>
+                                        <fieldset>
+                                            <legend>¿Cuál método desea usar hoy?</legend>
+                                            <div class="form-group">
+                                                <label class="col-sm-3 control-label" for="name_on_card">Nombre impreso en tarjeta</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" class="form-control" required="required" stripe-data="name"
+                                                           id="name_on_card" name="name_on_card" placeholder="Nombre impreso en la tarjeta" autocomplete="off">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-3 control-label" for="card_number">Número de tarjeta</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" type="text" minlength="16" maxlength="16" required="required" name="card_number" class="form-control" stripe-data="number"
+                                                           id="card_number" placeholder="Número de tarjeta" autocomplete="off">
+                                                    <br/>
+                                                    <div><img class="pull-right"
+                                                              src="https://s3.amazonaws.com/hiresnetwork/imgs/cc.png"
+                                                              style="max-width: 250px; padding-bottom: 20px;">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label" for="card_exp_month">Fecha de expiración</label>
+                                                    <div class="col-sm-9">
+                                                        <div class="row">
+                                                            <div class="col-xs-3">
+                                                                <select class="form-control col-sm-2"
+                                                                        data-stripe="exp-month" id="card_exp_month" name="card_exp_month"
+                                                                        style="margin-left:5px;" required="required">
+                                                                    <option value="01">Ene (01)</option>
+                                                                    <option value="02">Feb (02)</option>
+                                                                    <option value="03">Mar (03)</option>
+                                                                    <option value="04">Abr (04)</option>
+                                                                    <option value="05">May (05)</option>
+                                                                    <option value="06">Jun (06)</option>
+                                                                    <option value="07">Jul (07)</option>
+                                                                    <option value="08">Ago (08)</option>
+                                                                    <option value="09">Sep (09)</option>
+                                                                    <option value="10">Oct (10)</option>
+                                                                    <option value="11">Nov (11)</option>
+                                                                    <option value="12">Dic (12)</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="col-xs-3">
+                                                                <select class="form-control" data-stripe="card_exp_year" name="card_exp_year"
+                                                                        id="card_exp_year">
+                                                                    <option value="2017">2017</option>
+                                                                    <option value="2018">2018</option>
+                                                                    <option value="2019">2019</option>
+                                                                    <option value="2020">2020</option>
+                                                                    <option value="2021">2021</option>
+                                                                    <option value="2022">2022</option>
+                                                                    <option value="2023">2023</option>
+                                                                    <option value="2024">2024</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label" for="cvv">CVC</label>
+                                                    <div class="col-sm-3">
+                                                        <input type="number" min="100" max="999" name="card_cvc" class="form-control" stripe-data="cvc"
+                                                               id="card_cvc" placeholder="Código de seguridad" autocomplete="off" required="required">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="col-sm-offset-3 col-sm-9">
+                                                    </div>
+                                                </div>
+                                        </fieldset>
+                                        <button type="submit" class="btn btn-success btn-lg" style="width:100%;">Pagar ahora
+                                        </button>
+                                        <br/>
+                                        <div style="text-align: left;"><br/>
+                                            Al aceptar esta orden usted esta de acuerdo con nuestros <strong> acuerdos universales de facturación</strong>. Si tiene alguna queja o duda, por favor, contáctenos antes de efectuar su pago.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+                <% end %>
+            </div>
+        </div>
+    </div>
+    </div>
+
+
